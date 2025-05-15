@@ -1,5 +1,7 @@
 library dio_util;
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -53,6 +55,9 @@ class DioUtil {
         return handler.resolve(error.response!);
       })
   ];
+
+  void handleException(Map<String, dynamic> exceptionRespData){
+  }
 
   // Sub class can add their own interceptors here
   @protected
@@ -123,17 +128,24 @@ class DioUtil {
         break;
     }
 
-    await checkApiResponse(resp);
-    return await cleanApiResponse(resp);
+    var checkedResp = await checkApiResponse(resp);
+    if (checkedResp == null){
+      return null;
+    }else{
+      return await cleanApiResponse(checkedResp);
+    }
   }
 
   // Check api response hook
   @protected
-  Future<void> checkApiResponse(Response resp)async{
+  Future<Response?> checkApiResponse(Response resp)async{
     if (resp.statusCode! >= 400){
-      DummyErrorResponse errResp = DummyErrorResponse.fromJson(resp.data);
-      print("Catch Error Response: ${errResp.toJson()}");
+      // DummyErrorResponse errResp = DummyErrorResponse.fromJson(resp.data);
+      // print("Catch Error Response: ${errResp.toJson()}");
+      handleException(resp.data);
+      return null;
     }
+    return resp;
   }
 
   // Clean api response hook
