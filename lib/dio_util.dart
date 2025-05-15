@@ -1,4 +1,4 @@
-library dio_util;
+library pal_dio_util;
 
 import 'dart:async';
 
@@ -42,8 +42,8 @@ class DummyErrorResponse {
   }
 }
 
-class DioUtil {
-  DioUtil();
+class PalDioUtil {
+  PalDioUtil();
 
   // General Dio instance
   final _dio = Dio();

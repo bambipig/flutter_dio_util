@@ -1,4 +1,4 @@
-name: dio_util
+name: pal_dio_util
 description: "A util of dio lib."
 version: 0.0.1
 homepage: https://github.com/bambipig/flutter_dio_util/
