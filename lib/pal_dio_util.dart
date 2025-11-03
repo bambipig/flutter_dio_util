@@ -3,7 +3,7 @@ library pal_dio_util;
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 enum ApiMethods {
   get,
@@ -79,7 +79,7 @@ class PalDioUtil {
 
   // Headers maker hook
   @protected
-  Future<Map<String, dynamic>?> makeHeaders()async{
+  Future<Map<String, dynamic>?> makeHeaders({authRequired = true})async{
     return {};
   }
 
@@ -90,16 +90,17 @@ class PalDioUtil {
   }
 
   // Options maker hook
-  Future<Options> makeOptions() async {
-    return Options(headers: await makeHeaders());
+  Future<Options> makeOptions({authRequired = true}) async {
+    return Options(headers: await makeHeaders(authRequired: authRequired));
   }
 
   // General api call
   Future<Map<String, dynamic>?> callApi<REQ extends BaseRequest>(ApiMethods method, String path,
       { REQ? dataReq, REQ? queriesReq, CancelToken? cancelToken,
+        bool authRequired = true,
         void Function(int, int)? onReceiveProgress, void Function(int, int)? onSendProgress}) async {
 
-    Options options = await makeOptions();
+    Options options = await makeOptions(authRequired: authRequired);
     var apiHost = await getApiHost();
     String url = "$apiHost$path";
     Response resp;
