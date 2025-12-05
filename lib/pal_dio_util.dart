@@ -3,8 +3,9 @@ library pal_dio_util;
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:developer' as developer;
+
+import 'package:flutter/foundation.dart';
 
 enum ApiMethods {
   get,
@@ -124,7 +125,11 @@ class PalDioUtil {
     var apiHost = await getApiHost();
     String url = "$apiHost$path";
     Response resp;
-
+    print("Host: ${apiHost}");
+    print("Url: ${url}");
+    print("Options: ${options} Headers: ${options.headers}");
+    print("Data: ${dataReq?.toJson()}");
+    print("Query: ${queriesReq?.toJson()}");
     PalResponse<RESP> palResp;
     try {
       switch (method) {
@@ -221,6 +226,7 @@ class PalDioUtil {
     //   lastResp.statusCode = 401;
     //
     // }
+    print("lastResp: ${lastResp.json}");
     return lastResp;
   }
 
