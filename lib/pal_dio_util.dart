@@ -125,11 +125,11 @@ class PalDioUtil {
     var apiHost = await getApiHost();
     String url = "$apiHost$path";
     Response resp;
-    print("Host: ${apiHost}");
-    print("Url: ${url}");
-    print("Options: ${options} Headers: ${options.headers}");
-    print("Data: ${dataReq?.toJson()}");
-    print("Query: ${queriesReq?.toJson()}");
+    // print("Host: ${apiHost}");
+    // print("Url: ${method.toString()} ${url}");
+    // print("Options: ${options} Headers: ${options.headers}");
+    // print("Data: ${dataReq?.toJson()}");
+    // print("Query: ${queriesReq?.toJson()}");
     PalResponse<RESP> palResp;
     try {
       switch (method) {
@@ -169,7 +169,7 @@ class PalDioUtil {
           );
           break;
       }
-      developer.log("resp.data ${resp.data}");
+      print("resp.data ${resp.data} status: ${resp.statusCode}");
       palResp = PalResponse(statusCode: resp.statusCode!, data: resp.data);
     } on DioException catch (e) {
       String? error;
@@ -210,7 +210,7 @@ class PalDioUtil {
       }
       palResp = PalResponse(statusCode: 0, error: error);
     }
-    developer.log("resp.data ${palResp.toString()}");
+    print("resp.data ${palResp.toString()}");
     var lastResp = await checkApiResponse<RESP>(palResp);
     // if (checkedResp == null) {
     //   return null;
