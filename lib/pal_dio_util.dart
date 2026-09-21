@@ -210,14 +210,14 @@ class PalDioUtil {
       }
       palResp = PalResponse(statusCode: 0, error: error);
     }
-    print("resp.data ${palResp.toString()}");
+    print("${url} resp.data ${palResp.toString()}");
     var lastResp = await checkApiResponse<RESP>(palResp);
     // if (checkedResp == null) {
     //   return null;
     // } else {
     //   return await cleanApiResponse(checkedResp);
     // }
-    if (lastResp.statusCode >= 200 && lastResp.statusCode < 300){
+    if (lastResp.statusCode >= 200 && lastResp.statusCode < 404){
       lastResp = await cleanApiResponse<RESP>(lastResp);
     }else if (lastResp.statusCode == 404){
       lastResp.error = "未找到该资源";
@@ -245,7 +245,7 @@ class PalDioUtil {
   // Clean api response hook
   @protected
   Future<PalResponse<T>> cleanApiResponse<T>(PalResponse<T> palResp) async {
-    print("${palResp.statusCode}");
+    print("cleanApiResponse: ${palResp.statusCode} ${palResp.data}");
     palResp.json = palResp.data != null ? palResp.data as Map<String, dynamic> : {};
     return palResp;
   }
